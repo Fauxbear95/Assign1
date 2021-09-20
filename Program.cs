@@ -7,14 +7,7 @@ namespace A1
     {
         static void Main(string[] args)
         {
-            var subseq = new List<int> { 2, 3, 4 };
-            var seq = new List<int> { 1, 2, 2, 3, 4 };
-            bool IsValid = SubsequenceFinder.IsValidSubsequence(seq, subseq);
-
-            Console.WriteLine(IsValid);
-
-
-            /*Console.WriteLine("Enter the number of cards to pick: ");
+            Console.WriteLine("Enter the number of cards to pick: ");
 			string line = Console.ReadLine();
 			if (int.TryParse(line, out int numCards))
 			{
@@ -26,7 +19,7 @@ namespace A1
 			else
 			{
 				Console.WriteLine("Please enter a valid number.");
-			}*/
+			}
         }
     }
 
