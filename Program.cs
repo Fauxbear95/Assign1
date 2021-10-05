@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using A1.ParticleProperties;
+
 
 namespace A1
 {
@@ -7,11 +9,58 @@ namespace A1
     {
         static void Main(string[] args)
         {
+            ParticleMovement particleMover = new ParticleMovement();
+
+            while (true)
+            {
+                Console.WriteLine("Please select a magnetic field/gravitiational field option below from the option numbers below (1-4): ");
+
+                Console.WriteLine("1. Default movement without magnetic or gravitational field");
+                Console.WriteLine("2. Just a magnetic field");
+                Console.WriteLine("3. Just a gravitational field");
+                Console.WriteLine("4. Both a magnetic and gravitational field are present. ");
+
+                char key = Console.ReadKey().KeyChar;
+
+                if (key != '1' && key != '2' && key != '3' && key != '4') break;
+
+                particleMover.MovementRange = GetMovementRange();
+
+                switch (key)
+                {
+                    case '1':
+                        particleMover.MovementRange = ParticleMovement.BASE_MOVEMENT;
+                        particleMover.MagneticField = (int)ParticleMovement.MagneticFieldOnOff.Off;
+                        particleMover.GravitationalField = (int)ParticleMovement.Gravity.Off;
+                        break;
+
+                    case '2':
+                        particleMover.GravitationalField = (int)ParticleMovement.Gravity.Off;
+                        particleMover.MagneticField = (int)ParticleMovement.MagneticFieldOnOff.On;
+                        break;
+
+                    case '3':
+                        particleMover.MagneticField = (int)ParticleMovement.MagneticFieldOnOff.Off;
+                        particleMover.GravitationalField = (int)ParticleMovement.Gravity.On;
+                        break;
+
+                    case '4':
+                        particleMover.MagneticField = (int)ParticleMovement.MagneticFieldOnOff.Off;
+                        particleMover.GravitationalField = (int)ParticleMovement.Gravity.On;
+                        break;
+                }
+
+                Console.WriteLine($"\nParticle with a movement range of {particleMover.MovementRange} units" +
+                                  $" moved a total distance of {particleMover.DistanceMoved} units.\n");
+            }
+
+
+            /*
             Console.WriteLine("Enter the number of cards to pick: ");
 			string line = Console.ReadLine();
 			if (int.TryParse(line, out int numCards))
 			{
-				foreach (var card in CardPicker.PickSomeCards(numCards))
+				foreach (var card in Cardpicker.PickSomeCards(numCards))
 				{
 					Console.WriteLine(card);
 				}
@@ -20,8 +69,17 @@ namespace A1
 			{
 				Console.WriteLine("Please enter a valid number.");
 			}
+            */
+
+            static int GetMovementRange()
+            {
+                Random random = new Random(1);
+                return random.Next(1, 7) + random.Next(1, 7) + random.Next(1, 7);
+            }
         }
     }
+
+    
 
     public static class SubsequenceFinder
     {
@@ -59,110 +117,4 @@ namespace A1
         }
     }
 
-    class CardPicker
-    {
-        static Random random = new Random(1);
-        /// <summary>
-        /// Picks a random (with replacement) number of cards.
-        /// </summary>
-        /// <param name="numCards">The number of cards to choose at random.</param>
-        /// <returns>An array of strings where each string represents a card.</returns>
-        public static string[] PickSomeCards(int numCards)
-        {
-
-            string[] cards = new string[numCards];
-            for (int i = 0; i < numCards; i++)
-            {
-                cards[i] = RandomValue() + RandomSuit();
-            }
-            return cards;
-        }
-        /// <summary>
-        /// Chooses a random value for a card (Ace, 2, 3, ... , Queen, King)
-        /// </summary>
-        /// <returns>A string that represents the value of a card</returns>
-        private static string RandomValue()
-        {
-            int value = random.Next(1, 14);
-            if (value == 1)
-            {
-                return "Ace of ";
-            }
-            else if (value == 2)
-            {
-                return "2 of ";
-            }
-            else if (value == 3)
-            {
-                return "3 of ";
-            }
-            else if (value == 4)
-            {
-                return "4 of ";
-            }
-            else if (value == 5)
-            {
-                return "5 of ";
-            }
-            else if (value == 6)
-            {
-                return "6 of ";
-            }
-            else if (value == 7)
-            {
-                return "7 of ";
-            }
-            else if (value == 8)
-            {
-                return "8 of ";
-            }
-            else if (value == 9)
-            {
-                return "9 of ";
-            }
-            else if (value == 10)
-            {
-                return "10 of ";
-            }
-            else if (value == 11)
-            {
-                return "Jack of ";
-            }
-            else if (value == 12)
-            {
-                return "Queen of ";
-            }
-            else if (value == 13)
-            {
-                return "King of ";
-            }
-
-            throw new NotImplementedException();
-        }
-        /// <summary>
-        /// Chooses a random suit for a card (Clubs, Diamonds, Hearts, Spades)
-        /// </summary>
-        /// <returns>A string that represents the suit of a card.</returns>
-        private static string RandomSuit()
-        {
-            int value = random.Next(1, 5);
-            if (value == 1)
-            {
-                return "Hearts";
-            }
-            else if (value == 2)
-            {
-                return "Diamonds";
-            }
-            else if (value == 3)
-            {
-                return "Clubs";
-            }
-            else if (value == 4)
-            {
-                return "Spades";
-            }
-            throw new NotImplementedException();
-        }
-    }
 }
